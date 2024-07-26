@@ -1,0 +1,33 @@
+create table customers
+(
+	cust_id serial primary key,
+	cust_name varchar(30) not null
+);
+create table orders
+(
+	odr_id serial primary key,
+	odr_date date not null,
+	price NUMERIC not null,--numeric is kind of float numeric(10,2) for example.
+	cust_id int not null,
+	FOREIGN KEY (cust_id) REFERENCES customers(cust_id)
+);
+
+
+insert into customers (cust_name) values('Rahul'),('Subi'),('Akanksha'),('Krupa'),('Alok'),('Disha'),
+('Bhagyashree'),('Anamika'),('Yogeshwar');
+insert into orders (odr_id,odr_date,price,cust_id)
+values (101,'2024-7-24',500,4),(112,'2024-6-20',600,1),(105,'2024-7-12',100,9),(107,'2024-7-24',600,4),(110,'2024-5-13',450,8),
+(102,'2024-6-12',400,2),(103,'2024-6-4',680,5),(104,'2024-6-2',550,6),(106,'2024-7-4',600,3),(108,'2024-5-6',750,1),
+(109,'2024-6-21',400,2),(111,'2024-7-7',700,6);
+
+--JOINS
+
+-- Perform an INNER JOIN to get combined data
+SELECT * from customers c 
+INNER JOIN orders o ON c.cust_id = o.cust_id;
+
+--Left Join
+--Left Join will display all the details of first table and only the related column of the 2nd table.
+
+select * from customers c left join orders o on c.cust_id=o.cust_id;
+ 

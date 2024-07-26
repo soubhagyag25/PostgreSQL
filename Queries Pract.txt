@@ -1,0 +1,51 @@
+create table Employees
+	(
+	emp_id integer primary key,
+	fname varchar(10) not null,
+	lname varchar(10),
+	dept varchar(10) not null,
+	salary decimal(10,2),--8 before decimal and 2 after decimal
+	gender varchar(10) not null
+	);
+insert into Employees(emp_id,fname,lname,dept,salary,gender)
+values (101,'Soubhagya','Gautam','IT',55000,'Male'),
+(102,'Aniket','Thakur','Marketing',26000,'Male'),
+(103,'Anamika','Bedi','HR',32000,'Female'),
+(104,'Megha','Dutta','Finance',31000,'Female'),
+(105,'Sumedha','','IT',45000,'Female'),
+(106,'Raghav','Chaddha','IT',48000,'Male'),
+(107,'Vikrant','Khajuria','IT',46000,'Male'),
+(108,'Priyam','Pramanik','Finance',36500,'Female'),
+(109,'Sarvesh','Bhagat','Marketing',20500,'Male'),
+(110,'Harsh','Tyagi','HR',21000,'Male'),
+(111,'Akanksha','Singh','IT',52000,'Female'),
+(112,'Rohan','Rastogi','Finance',20000,'Male');
+
+
+
+--Find different types of depts. in DB
+select dept from employees group by dept;
+--OR
+select distinct dept from employees;
+
+
+--Display records with high-low salary
+Select salary from employees order by salary DESC; 
+
+--How to see only top 3 rows?
+Select * from employees where emp_id<104;
+
+
+--Show the records where first name starts with letter 'A'.
+select fname from employees where fname like 'A%';
+
+--Find the employee with highest salary.
+select * from employees where salary=(select max(salary) from employees);
+
+
+--Find the employee with Lowest Salary
+select * from employees where salary=(select min(salary) from employees);
+
+
+--Display the employee details by Salary from highest to lowest.
+select * from employees order by salary desc;

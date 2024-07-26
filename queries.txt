@@ -1,0 +1,82 @@
+student=# SELECT COUNT(rollno) FROM student;
+ count
+-------
+     5
+(1 row)
+
+
+student=# select gender,count(rollno) from student group by gender;
+ gender | count
+--------+-------
+ Female |     1
+ Male   |     4
+(2 rows)
+
+
+student=# select gender from student group by gender;
+ gender
+--------
+ Female
+ Male
+(2 rows)
+
+
+student=# select concat (name_,rollno) from student;
+      concat
+-------------------
+ Harsh Gujral3
+ Kapil Beniwal4
+ Sumit Sodhi5
+ Anamika Bedi2
+ Soubhagya Gautam1
+(5 rows)
+
+
+student=# select name_ from student order by name_;
+      name_
+------------------
+ Anamika Bedi
+ Harsh Gujral
+ Kapil Beniwal
+ Soubhagya Gautam
+ Sumit Sodhi
+(5 rows)
+
+
+student=# select replace (gender,'Male','Purush') from student;
+ replace
+---------
+ Purush
+ Purush
+ Purush
+ Female
+ Purush
+(5 rows)
+
+
+student=# select * from student;
+ rollno |      name_       | class_ | gender |    dob
+--------+------------------+--------+--------+------------
+      3 | Harsh Gujral     | 10th   | Male   |
+      4 | Kapil Beniwal    | 10th   | Male   |
+      5 | Sumit Sodhi      | 10th   | Male   |
+      2 | Anamika Bedi     | 10th   | Female |
+      1 | Soubhagya Gautam | 10th   | Male   | 2000-11-12
+(5 rows)
+
+
+student=# select * from student where rollno > 2;
+ rollno |     name_     | class_ | gender | dob
+--------+---------------+--------+--------+-----
+      3 | Harsh Gujral  | 10th   | Male   |
+      4 | Kapil Beniwal | 10th   | Male   |
+      5 | Sumit Sodhi   | 10th   | Male   |
+(3 rows)
+
+
+student=# select distinct gender from student;
+ gender
+--------
+ Female
+ Male
+(2 rows)

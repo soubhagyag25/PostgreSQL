@@ -1,0 +1,11 @@
+CREATE OR REPLACE FUNCTION employee_details(employee_id INT)
+RETURNS TABLE (emp_id INT, fname VARCHAR, lname VARCHAR, dept VARCHAR, salary NUMERIC, gender VARCHAR) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT * 
+    FROM employees e
+    WHERE e.emp_id = employee_id;
+END;
+$$ LANGUAGE plpgsql;
+
+select employee_details(101);

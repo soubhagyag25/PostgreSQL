@@ -1,0 +1,17 @@
+create table student
+(
+	rollno serial primary key,
+	name_ varchar(20),
+	class_ varchar(5) default '10th'
+);
+insert into student (name_)
+values ('Soubhagya Gautam'),('Anamika Bedi'),('Harsh Gujral'),('Kapil Beniwal'),
+	('Sumit Sodhi');
+alter table student add column Gender varchar(10) default 'Male';
+
+update student set Gender='Female' where name_ ='Anamika Bedi';
+select * from student order by rollno;
+alter table student add column DOB date;
+select * from student;
+delete from student where rollno=5;
+update student set DOB='2000-11-12' where rollno=1;
