@@ -1,0 +1,40 @@
+--Triggers: We will create a Trigger which will save the old data of the table into an another table whenever
+--we Insert or Update any data into our table.
+
+CREATE TABLE student (
+    roll_no NUMERIC,
+    name VARCHAR(30),
+    course VARCHAR(20)
+);
+
+CREATE TABLE student_old (
+    old_roll_no NUMERIC,
+    old_name VARCHAR(30),
+    old_course VARCHAR(20)
+);
+
+CREATE OR REPLACE FUNCTION student_trigger_fun()
+RETURNS TRIGGER AS $$
+BEGIN
+        INSERT INTO student_old (old_roll_no, old_name, old_course)
+        VALUES (OLD.roll_no, OLD.name, OLD.course);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER student_trigger
+BEFORE DELETE OR UPDATE ON student
+FOR EACH ROW
+EXECUTE FUNCTION student_trigger_fun();
+
+
+INSERT INTO student (roll_no, name, course)
+VALUES (1, 'Subi', 'B.Tech'), (2, 'Rahul', 'B.E'), (3, 'Aloke', 'MCA');
+
+
+select * from student;
+select * from student_old;
+
+
+update student set name='Soubhagya Gautam' where roll_no=1;

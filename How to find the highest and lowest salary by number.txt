@@ -1,0 +1,2 @@
+select * from(select employees.* ,row_number() over (order by salary) as fn from employees) where fn=2;
+select * from(select employees.* ,row_number() over (order by salary DESC) as fn from employees) where fn=2;

@@ -1,0 +1,101 @@
+--Indexes in PostgreSQL:Indexes in PostgreSQL are powerful tools that can significantly enhance the 
+--        performance of queries by allowing the database to find and retrieve specific rows much faster than 
+--        scanning the entire table. 
+--1.B-tree Index:'B' stands for 'Balanced',Default Type: Used when you create an index without specifying the type.
+--        Use Cases: Most common queries, including equality (=) and range queries (<, <=, >, >=).
+
+CREATE INDEX idx_employee_lname ON Employees (lname);
+
+--Purpose of the Index
+--The primary purpose of creating this index is to speed up queries that involve the lname column. 
+   --     For example, the following types of queries will benefit from this index:
+--1.
+SELECT * FROM Employees WHERE lname = 'Singh';
+
+--2.
+SELECT * FROM Employees WHERE lname >= 'A' AND lname < 'M';
+
+--3.
+SELECT * FROM Employees ORDER BY lname;
+
+
+--Benefits of the Index
+-- Faster Lookups: The index allows PostgreSQL to quickly locate rows with a specific lname value without scanning the entire table.
+-- Improved Query Performance: Queries that filter, join, or sort by the lname column will execute more efficiently.
+-- Reduced Disk I/O: By using the index, PostgreSQL can reduce the number of disk reads required to find the relevant rows.
+-- Checking Index Usage
+-- To see if PostgreSQL is using the index in a query, you can use the EXPLAIN command:
+
+EXPLAIN SELECT * FROM Employees WHERE lname = 'Singh';
+
+
+
+
+--By default, the CREATE INDEX command creates B-tree indexes, which fit the most common situations.
+--     The other index types are selected by writing the keyword "USING" followed by the index type name. 
+--     For example, to create a Hash index:
+
+--HASH:Hasehes can only handle simple equality comparisons(=)
+--syntax:CREATE INDEX name ON table USING HASH (column);
+
+CREATE INDEX idx_employee_hash ON Employees USING HASH (lname);
+
+
+
+
+--GIN (Generalized Inverted Index):
+--      Use Cases: Indexing composite values like arrays, JSONB, and full-text search.
+
+CREATE INDEX idx_employee_dept ON Employees (dept);
+
+-- Generalized Inverted Index (GIN) is typically used for columns that contain complex data types such as arrays,
+-- 	JSONB, and full-text search. Given the structure of your Employees table with columns emp_id,
+-- 	fname, lname, dept, salary, and gender, we need to simulate a scenario where GIN indexing is appropriate.
+
+
+
+--Let's assume you want to add a skills column to the Employees table that stores an array of skills for each 
+--   employee. 
+--   We can then create a GIN index on this skills column.
+
+ALTER TABLE Employees ADD COLUMN skills text[];
+UPDATE Employees SET skills = ARRAY['Java', 'PostgreSQL', 'Python'] WHERE emp_id = 1;
+UPDATE Employees SET skills = ARRAY['JavaScript', 'Node.js', 'React'] WHERE emp_id = 2;
+UPDATE Employees SET skills = ARRAY['HTML', 'CSS', 'JavaScript'] WHERE emp_id = 3;
+
+
+--Creating a GIN using SKILLS column.
+CREATE INDEX idx_employee_skills ON Employees USING GIN (skills);
+
+
+-- Query Using the GIN Index:
+-- Finally, use a query that benefits from the GIN index.
+--@> means 'contains'
+
+SELECT * FROM Employees WHERE skills @> ARRAY['JavaScript'];
+
+
+-- To verify that PostgreSQL is using the GIN index, you can use the EXPLAIN command:
+EXPLAIN SELECT * FROM Employees WHERE skills @> ARRAY['JavaScript'];
+
+
+-- GiST (Generalized Search Tree):
+
+-- Use Cases: Geometric data types, full-text search, and other complex queries.
+
+CREATE INDEX idx_employee_location ON Employees USING GiST (location);
+
+
+-- SP-GiST (Space-Partitioned Generalized Search Tree):
+
+-- Use Cases: Efficient for certain types of data that can be logically divided into non-overlapping regions.
+
+CREATE INDEX idx_employee_tree ON Employees USING SP-GiST (location);
+
+
+
+-- BRIN (Block Range INdex):
+
+-- Use Cases: Large tables with naturally ordered data, like time-series data.
+
+CREATE INDEX idx_employee_hire_date ON Employees USING BRIN (hire_date);

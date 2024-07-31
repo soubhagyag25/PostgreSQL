@@ -1,0 +1,3 @@
+-- Normalization is a process used in database design to organize data to reduce redundancy and improve data integrity. 
+-- In PostgreSQL,as in other relational database management systems,
+-- normalization involves structuring the database schema into a series of tables with relationships between them.
